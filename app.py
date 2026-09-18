@@ -7,7 +7,7 @@ import plotly.express as px
 
 st.set_page_config(page_title="Workforce Attrition Risk & Retention Simulator", layout="wide")
 
-DATA_PATH = "data/WA_Fn-UseC_-HR-Employee-Attrition.csv"
+DATA_PATH = "WA_Fn-UseC_-HR-Employee-Attrition.csv"
 MODEL_PATH = "rf_attrition_model.pkl"
 ENCODERS_PATH = "label_encoders.pkl"
 FEATURES_PATH = "feature_columns.pkl"
