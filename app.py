@@ -203,7 +203,18 @@ with tab3:
         st.subheader("What's Driving This Prediction")
         explainer = shap.TreeExplainer(model)
         shap_values = explainer.shap_values(scenario_encoded)
-        sv = shap_values[1][0] if isinstance(shap_values, list) else shap_values[0]
+
+        if isinstance(shap_values, list):
+            # Old format: list of arrays, one per class
+            sv = shap_values[1][0]
+        elif shap_values.ndim == 3:
+            # New format: (samples, features, classes)
+            sv = shap_values[0, :, 1]
+        else:
+            # Binary case already collapsed to (samples, features)
+            sv = shap_values[0]
+
+        sv = np.array(sv).flatten()
 
         shap_df = pd.DataFrame({"Feature": feature_cols, "Impact": sv})
         shap_df = shap_df.reindex(shap_df["Impact"].abs().sort_values(ascending=False).index).head(8)
